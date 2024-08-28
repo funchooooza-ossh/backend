@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    {% if post.published %}
+
+        <div class="content">
+            <h1>{{post.title}}</h1>
+            <p>{{post.description|linebreaksbr}}</p>
+            <p>{{post.created_date}}</p>
+            <p>{{post.author}}</p>
+
+            {% if request.user == post.author %}
+                <p><a href="{% url 'edit' post.id %}">Edit post</a></p>
+                <p><a href="{% url 'delete' post.id %}">Delete post</a></p>
+
+            {% elif request.user.is_staff %}
+                <p><a href="{% url 'edit' post.id %}">Edit post</a></p>
+                <p><a href="{% url 'delete' post.id %}">Delete post</a></p>
+
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <h4>Leave a comment to this post</h4>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" value="Sumbit">Submit</button>
+                </form>
+            {% endif %}
+            
+            <h4>Comments</h4>
+            
+                {% for comment in comments %}
+                   
+                        <p>{{comment.author}}</p>
+                        <p>{{comment.description|linebreaksbr}}</p>
+                        <p>{{comment.created_date}}</p>
+                  
+                {% endfor %}
+
+            
+    {% endif %}
+
+{% endblock %}

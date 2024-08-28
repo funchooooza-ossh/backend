@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    {% for post in posts %}
+    <p>
+        {% if post.published %}
+            <h2><a href="{% url 'detail' post.id %}">{{ post.title }}</a></h2>
+            <p>{{ post.description|linebreaksbr }}</p>
+            <p>{{ post.author.username }}</p>
+            <p>{{ post.formatted_date }}</p>
+            {% if post.comments_count < 1 %}
+            {% elif post.comments_count >= 1 %}
+                <p>{{ post.comments_count }} comments</p>
+            {% endif %}
+           
+        {% endif %}    
+    {% endfor %}
+    </p>
+
+    <p>
+       
+    </p>
+
+{% endblock %}

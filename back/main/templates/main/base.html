@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finch blog</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<body>
+    <div class="head">
+       
+
+        {% if request.user.is_authenticated %}
+
+            
+            <p><a href="{% url 'logOut' %}">logout</a></p>
+            <p><a href="{% url 'postcreate' %}">Create post</a></p>
+        {% else %}
+            <p><a href="{% url 'reg' %}">Sign up</a></p>
+            <p><a href="{% url 'logIn' %}">LogIn</a></p>
+        {% endif %}
+
+        
+
+
+    </div>
+
+
+    <div id="content">
+     {% block content %}
+     {% endblock %}
+    </div>
+
+
+    
+        
+    
+    
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" value="Sumbit">Submit</button>
+    </form>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+{% endblock %}

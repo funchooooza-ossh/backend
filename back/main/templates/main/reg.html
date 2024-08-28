@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+    <form action="" method="post">
+
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" value="Sumbit">Submit</button>
+    </form>
+
+    <div >
+        <a href="">Already have an account? Login</a>
+    </div>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+
+{% endblock %}
