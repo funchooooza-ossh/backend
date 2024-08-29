@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2281
+    volumes:
+      - dj_volume:/var/lib/postgresql/data
+    networks:
+      - con
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready","-U","postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  backend:
+    image: funchoooozaossh/myblog:backend
+    container_name: backend
+    networks:
+      - con
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes: 
+      - ./.env:/mycode/:ro
+        
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    networks:
+      - con
+    volumes:
+      - ./finch-blog.conf:/etc/nginx/conf.d/finch-blog.conf:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck: 
+      test: ["CMD","curl","95.163.222.91"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dj_volume:
+    name: dj_volume
+networks:
+  con:
+    name: con
